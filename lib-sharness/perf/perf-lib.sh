@@ -57,13 +57,13 @@ die_if_build_dir_not_repo () {
 	fi
 }
 
-if test -z "$GIT_PERF_REPO"; then
-	die_if_build_dir_not_repo '$GIT_PERF_REPO'
-	GIT_PERF_REPO=$TEST_DIRECTORY/..
+if test -z "$SHARNESS_PERF_DATA"; then
+	die_if_build_dir_not_repo '$SHARNESS_PERF_DATA'
+	SHARNESS_PERF_DATA=$TEST_DIRECTORY/..
 fi
-if test -z "$GIT_PERF_LARGE_REPO"; then
-	die_if_build_dir_not_repo '$GIT_PERF_LARGE_REPO'
-	GIT_PERF_LARGE_REPO=$TEST_DIRECTORY/..
+if test -z "$SHARNESS_PERF_LARGE_DATA"; then
+	die_if_build_dir_not_repo '$SHARNESS_PERF_LARGE_DATA'
+	SHARNESS_PERF_LARGE_DATA=$TEST_DIRECTORY/..
 fi
 
 test_perf_do_repo_symlink_config_ () {
@@ -118,15 +118,15 @@ test_perf_fresh_repo () {
 }
 
 test_perf_default_repo () {
-	test_perf_create_repo_from "${1:-$TRASH_DIRECTORY}" "$GIT_PERF_REPO"
+	test_perf_create_repo_from "${1:-$TRASH_DIRECTORY}" "$SHARNESS_PERF_DATA"
 }
 test_perf_large_repo () {
-	if test "$GIT_PERF_LARGE_REPO" = "$GIT_BUILD_DIR"; then
-		echo "warning: \$GIT_PERF_LARGE_REPO is \$GIT_BUILD_DIR." >&2
+	if test "$SHARNESS_PERF_LARGE_DATA" = "$GIT_BUILD_DIR"; then
+		echo "warning: \$SHARNESS_PERF_LARGE_DATA is \$GIT_BUILD_DIR." >&2
 		echo "warning: This will work, but may not be a sufficiently large repo" >&2
 		echo "warning: for representative measurements." >&2
 	fi
-	test_perf_create_repo_from "${1:-$TRASH_DIRECTORY}" "$GIT_PERF_LARGE_REPO"
+	test_perf_create_repo_from "${1:-$TRASH_DIRECTORY}" "$SHARNESS_PERF_LARGE_DATA"
 }
 test_checkout_worktree () {
 	git checkout-index -u -a ||
@@ -194,14 +194,14 @@ test_perf_ () {
 	else
 		echo "perf $test_count - $1:"
 	fi
-	for i in $(test_seq 1 $GIT_PERF_REPEAT_COUNT); do
+	for i in $(test_seq 1 $SHARNESS_PERF_REPEAT_COUNT); do
 		say >&3 "running: $2"
 		if test_run_perf_ "$2"
 		then
 			if test -z "$verbose"; then
 				printf " %s" "$i"
 			else
-				echo "* timing run $i/$GIT_PERF_REPEAT_COUNT:"
+				echo "* timing run $i/$SHARNESS_PERF_REPEAT_COUNT:"
 			fi
 		else
 			test -z "$verbose" && echo

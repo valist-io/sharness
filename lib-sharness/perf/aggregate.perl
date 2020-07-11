@@ -313,8 +313,8 @@ sub print_codespeed_results {
 	my $environment;
 	if ($reponame) {
 		$environment = $reponame;
-	} elsif (exists $ENV{GIT_PERF_REPO_NAME} and $ENV{GIT_PERF_REPO_NAME} ne "") {
-		$environment = $ENV{GIT_PERF_REPO_NAME};
+	} elsif (exists $ENV{SHARNESS_PERF_DATA_NAME} and $ENV{SHARNESS_PERF_DATA_NAME} ne "") {
+		$environment = $ENV{SHARNESS_PERF_DATA_NAME};
 	} else {
 		$environment = `uname -r`;
 		chomp $environment;

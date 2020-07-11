@@ -61,11 +61,11 @@ build_git_rev () {
 	echo "=== Building $rev ($name) ==="
 	(
 		cd build/$rev &&
-		if test -n "$GIT_PERF_MAKE_COMMAND"
+		if test -n "$SHARNESS_PERF_BUILD_COMMAND"
 		then
-			sh -c "$GIT_PERF_MAKE_COMMAND"
+			sh -c "$SHARNESS_PERF_BUILD_COMMAND"
 		else
-			make $GIT_PERF_MAKE_OPTS
+			make $SHARNESS_PERF_MAKE_OPTS
 		fi
 	) || die "failed to build revision '$mydir'"
 }
@@ -161,18 +161,18 @@ get_var_from_env_or_config () {
 }
 
 run_subsection () {
-	get_var_from_env_or_config "GIT_PERF_REPEAT_COUNT" "perf" "repeatCount" "--int"
-	: ${GIT_PERF_REPEAT_COUNT:=3}
-	export GIT_PERF_REPEAT_COUNT
+	get_var_from_env_or_config "SHARNESS_PERF_REPEAT_COUNT" "perf" "repeatCount" "--int"
+	: ${SHARNESS_PERF_REPEAT_COUNT:=3}
+	export SHARNESS_PERF_REPEAT_COUNT
 
 	get_var_from_env_or_config "GIT_PERF_DIRS_OR_REVS" "perf" "dirsOrRevs"
 	set -- $GIT_PERF_DIRS_OR_REVS "$@"
 
-	get_var_from_env_or_config "GIT_PERF_MAKE_COMMAND" "perf" "makeCommand"
-	get_var_from_env_or_config "GIT_PERF_MAKE_OPTS" "perf" "makeOpts"
+	get_var_from_env_or_config "SHARNESS_PERF_BUILD_COMMAND" "perf" "makeCommand"
+	get_var_from_env_or_config "SHARNESS_PERF_MAKE_OPTS" "perf" "makeOpts"
 
-	get_var_from_env_or_config "GIT_PERF_REPO_NAME" "perf" "repoName"
-	export GIT_PERF_REPO_NAME
+	get_var_from_env_or_config "SHARNESS_PERF_DATA_NAME" "perf" "repoName"
+	export SHARNESS_PERF_DATA_NAME
 
 	GIT_PERF_AGGREGATING_LATER=t
 	export GIT_PERF_AGGREGATING_LATER

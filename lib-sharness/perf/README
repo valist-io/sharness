@@ -2,9 +2,9 @@ Performance testing framework
 =============================
 
 This directory holds a framework based on Sharness that can be used to
-write performance testing scripts and manage their ouput. This
-framework supposes that Git is used to manage the source code of the
-software you want to test.
+write and run performance testing scripts, and to manage their
+ouput. This framework supposes that Git is used to manage the source
+code of the software you want to test.
 
 The first part of this document describes the various ways in which
 you can run the performance testing scripts.
@@ -16,8 +16,9 @@ organized.
 Running Tests
 -------------
 
-The easiest way to run tests is to say "make".  This runs all
-the tests on the current git repository.
+The easiest way to run tests is to say `make`. This builds the
+software on the current git repository (using `make` by default), and
+then this runs all the tests.
 
     === Running 2 tests in this tree ===
     [...]
@@ -56,38 +57,35 @@ anything beforehand.
 
 You can set the following variables (also in your config.mak):
 
-    GIT_PERF_REPEAT_COUNT
+    SHARNESS_PERF_REPEAT_COUNT
 	Number of times a test should be repeated for best-of-N
 	measurements.  Defaults to 3.
 
-    GIT_PERF_MAKE_OPTS
+    SHARNESS_PERF_MAKE_OPTS
 	Options to use when automatically building a git tree for
 	performance testing. E.g., -j6 would be useful. Passed
-	directly to make as "make $GIT_PERF_MAKE_OPTS".
+	directly to `make` as "make $SHARNESS_PERF_MAKE_OPTS".
 
-    GIT_PERF_MAKE_COMMAND
-	An arbitrary command that'll be run in place of the make
-	command, if set the GIT_PERF_MAKE_OPTS variable is
-	ignored. Useful in cases where source tree changes might
-	require issuing a different make command to different
-	revisions.
+    SHARNESS_PERF_BUILD_COMMAND
+	An arbitrary command that'll be run in place of the `make`
+	command, if set, the SHARNESS_PERF_MAKE_OPTS variable is
+	ignored.
 
 	This can be (ab)used to monkeypatch or otherwise change the
 	tree about to be built. Note that the build directory can be
-	re-used for subsequent runs so the make command might get
+	re-used for subsequent runs, so the build command might get
 	executed multiple times on the same tree, but don't count on
 	any of that, that's an implementation detail that might change
 	in the future.
 
-    GIT_PERF_REPO
-    GIT_PERF_LARGE_REPO
-	Repositories to copy for the performance tests.  The normal
-	repo should be at least git.git size.  The large repo should
-	probably be about linux.git size for optimal results.
-	Both default to the git.git you are running from.
+    SHARNESS_PERF_DATA
+    SHARNESS_PERF_LARGE_DATA    
+	Directories to copy for the performance tests. You might need
+	to tests the performance of your software on different data
+	sets. By default only 2 data sets can be used.
 
-You can also pass the options taken by ordinary git tests; the most
-useful one is:
+You can also pass the options taken by ordinary Sharness tests; the
+most useful one is:
 
 --root=<directory>::
 	Create "trash" directories used to store all temporary data during
