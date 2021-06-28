@@ -468,7 +468,7 @@ remove_trash_() {
 }
 
 # Prepare test area.
-SHARNESS_TRASH_DIRECTORY="trash directory.$(basename "$SHARNESS_TEST_FILE" ".$SHARNESS_TEST_EXTENSION")"
+SHARNESS_TRASH_DIRECTORY="trash-directory.$(basename "$SHARNESS_TEST_FILE" ".$SHARNESS_TEST_EXTENSION")"
 test -n "$root" && SHARNESS_TRASH_DIRECTORY="$root/$SHARNESS_TRASH_DIRECTORY"
 case "$SHARNESS_TRASH_DIRECTORY" in
 /*) ;; # absolute path is good
